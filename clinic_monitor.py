@@ -104,16 +104,16 @@ async def check_availability(max_retries=3):
                 # Get the first day-flex-col (today's appointments)
                 today_column = day_flex_col[0]
 
-                # Look for day-cell elements with capacity-enough class
+                # Look for day-cell elements with capacity-enough or capacity-few class
                 available_slots = await today_column.query_selector_all(
-                    '.day-cell.capacity-enough')
+                    '.day-cell.capacity-enough, .day-cell.capacity-few')
 
                 # Check tomorrow's slots for logging
                 tomorrow_cols = day_flex_col[1] if len(
                     day_flex_col) > 1 else None
                 if tomorrow_cols:
                     tomorrow_slots = await tomorrow_cols.query_selector_all(
-                        '.day-cell.capacity-enough')
+                        '.day-cell.capacity-enough, .day-cell.capacity-few')
                     if tomorrow_slots:
                         logger.info(
                             f"Found {len(tomorrow_slots)} available slots for tomorrow's appointments"
